@@ -1,0 +1,297 @@
+//DAA practical code
+
+// 1 
+
+//Fibonacci number using recursive method
+//TC: O(2^n), SC:O(n)
+
+import java.util.Scanner;
+class Dsa {
+
+    public static int fibonacci(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return 1;
+        }
+
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the number");
+        int num = sc.nextInt();
+        System.out.println(fibonacci(num));
+
+    }
+}
+***************************************************************
+//Fibonacci number using non-recursive(iterative) method
+//TC: O(n), SC:O(1)
+
+import java.util.Scanner;
+
+public class Dsa {
+    public static int Fibonacci(int n) {
+        if (n <= 1) {
+            return n;
+        }
+
+        int a = 0, b = 1;
+        for (int i = 2; i <= n; i++) {
+            int temp = a + b;
+            a = b;
+            b = temp;
+        }
+
+        return b;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the number");
+        int num = sc.nextInt();
+        System.out.println(Fibonacci(num));
+    }
+}
+-----------------------------------------------------------------------------------	
+
+//2
+//TC:O(nlog n), SC:O(n)
+
+import java.io.*;
+import java.util.*;
+
+class Node{
+    char ch;
+    int freq;
+    Node left;
+    Node right;
+    Node(char ch, int freq, Node left, Node right) {
+        this.ch = ch;
+        this.freq = freq;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+class Solution {
+	public static void printHcodes(char[] arr, int[] freq) {
+		PriorityQueue<Node> h = new PriorityQueue<>(
+		    (n1, n2) -> n1.freq - n2.freq);
+		for(int i=0; i<arr.length; i++)
+		    h.add(new Node(arr[i], freq[i], null, null));
+		while(h.size() > 1) {
+		    Node l = h.poll();
+		    Node r = h.poll();
+		    h.add(new Node('$', l.freq+r.freq, l, r));
+		}
+		printRec(h.peek(), "");
+ 	}
+	
+	public static void printRec(Node root, String s) {
+	    if(root == null) 
+	        return;
+	    if(root.ch != '$') {
+	        System.out.println(root.ch + ": " + s);
+	        return;
+	    }
+	    printRec(root.left, s+"0");
+	    printRec(root.right, s+"1");
+	}
+	
+	public static void main(String[] args) {
+	    printHcodes(new char[]{'a', 'd', 'e', 'f'}, new int[]{30, 40, 80, 60});
+	}
+}
+--------------------------------------------------------------------------------------------
+//3
+
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+
+class Item implements Comparable<Item>
+{
+	int wt;
+	int val;
+
+	Item(int w, int v)
+	{
+		wt = w;
+		val = v;
+	}
+
+	public int compareTo(Item i)
+	{
+		return wt * i.val - val * i.wt;
+	}
+
+}
+
+
+
+class GFG 
+{ 
+
+    static double fracKnapSack(Item arr[], int n, int W)
+    {	
+	    Arrays.sort(arr);
+
+	    double  res = 0.0;
+
+	for(int i = 0; i < n; i++)
+	{
+		if(arr[i].wt <= W)
+		{
+			res += arr[i].val;
+
+			W = W - arr[i].wt;
+		}
+		else
+		{
+			res += arr[i].val * ((double) W / arr[i].wt);
+
+			break;
+		}
+	}
+
+
+	return res;
+    }
+
+    public static void main(String args[]) 
+    {
+    	Item arr[] = {new Item(10, 60), 
+    				  new Item(40, 40), 
+    				  new Item(20, 100),
+    				  new Item(30, 120)};
+
+    	int n = 4, W = 50;
+
+        System.out.println(fracKnapSack(arr, n, W));
+
+    } 
+
+}
+----------------------------------------------------------------------------------------------------------
+//4
+
+
+import java.io.*;
+import java.util.*;
+import static java.lang.System.out;
+
+class Dsa {
+
+    static int knapSack(int W, int wt[], int val[], int n) {
+
+        int dp[][] = new int[n + 1][W + 1];
+
+        for (int i = 0; i <= W; i++) {
+            dp[0][i] = 0;
+        }
+
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = 0;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= W; j++) {
+                if (wt[i - 1] > j)
+                    dp[i][j] = dp[i - 1][j];
+                else
+                    dp[i][j] = Math.max(val[i - 1] + dp[i - 1][j - wt[i - 1]], dp[i - 1][j]);
+            }
+        }
+
+        return dp[n][W];
+    }
+
+    public static void main(String[] args) {
+        int val[] = { 10, 40, 30, 50 };
+        int wt[] = { 5, 4, 6, 3 };
+        int W = 10;
+        int n = 4;
+
+        System.out.println("Maximum value that can be obtained: " + knapSack(W, wt, val, n));
+
+    }
+}------------------------------------------------------------------------------------------------------------------------
+//5
+//TC:O(N!), SC:O(N^2)
+
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+
+class Dsa {
+
+    static final int N = 4;
+    static int board[][] = { { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 } };
+
+    static void printSolution(int board[][]) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++)
+                System.out.print(" " + board[i][j]
+                        + " ");
+            System.out.println();
+        }
+    }
+
+    static boolean isSafe(int row, int col) {
+        int i, j;
+
+        for (i = 0; i < col; i++)
+            if (board[row][i] == 1)
+                return false;
+
+        for (i = row, j = col; i >= 0 && j >= 0; i--, j--)
+            if (board[i][j] == 1)
+                return false;
+
+        for (i = row, j = col; j >= 0 && i < N; i++, j--)
+            if (board[i][j] == 1)
+                return false;
+
+        return true;
+    }
+
+    static boolean solveRec(int col) {
+        if (col == N)
+            return true;
+
+        for (int i = 0; i < N; i++) {
+            if (isSafe(i, col)) {
+                board[i][col] = 1;
+
+                if (solveRec(col + 1) == true)
+                    return true;
+
+                board[i][col] = 0;
+            }
+        }
+        return false;
+    }
+
+    static boolean solve() {
+
+        if (solveRec(0) == false) {
+            System.out.print("Solution does not exist");
+            return false;
+        }
+
+        printSolution(board);
+        return true;
+    }
+
+    public static void main(String args[]) {
+        solve();
+    }
+}
+---------------------------------------------------------------------------------------------
