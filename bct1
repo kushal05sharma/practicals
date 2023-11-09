@@ -1,0 +1,63 @@
+
+//Fibonacci number using recursive method
+//TC: O(2^n), SC:O(n)
+//Fibonacci number using non-recursive(iterative) method
+//TC: O(n), SC:O(1)
+import java.util.*;
+public class DAA01 {
+
+    public static void iterativeMethod(int z ){  
+        int a = 0 ;
+        int b = 1;
+        System.out.print("Fibonacci Series: " + a + ", " + b);
+        int c ;
+        for (int i =3 ; i<=z ; i++){
+            c = a + b;
+            System.out.print(", " + c );
+            a=b;
+            b=c;
+        }
+    }
+
+    public static int recursiveFibonacci(int n) {
+        if (n <= 1) {
+            return n;
+        }
+         return recursiveFibonacci(n - 1) + recursiveFibonacci(n - 2);
+    }
+    public static void main(String[] args) {
+
+                System.out.println("Fibonacci Series Menu enter input as 1 or 2 :\r\n" + //
+                "1. Calculate Iteratively\r\n" + //
+                "2. Calculate Recursively ");
+
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        if (n==1){
+        System.out.println("Enter the number of Fibonacci numbers to generate:");
+        int z = sc.nextInt();
+        long startTime = System.nanoTime();
+        iterativeMethod(z);
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime;
+        System.out.println("  " + "Time taken by Iterative Method: " + elapsedTime + " nanoseconds");
+        }
+
+       else if (n == 2) {
+        System.out.println("Enter the number of Fibonacci numbers to generate:");
+        int p = sc.nextInt();
+        long startTime = System.nanoTime();
+        for (int i = 0; i < p; i++) {
+            int result = recursiveFibonacci(i);
+            System.out.print(result + " ");
+        }
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime;
+        System.out.println(" " + "Time taken by Recursive Method: " + elapsedTime + " nanoseconds");
+    }
+       else {
+        System.out.println("Enter correct input");
+       }
+    }
+}
